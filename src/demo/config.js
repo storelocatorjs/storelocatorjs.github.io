@@ -2,7 +2,7 @@ import 'storelocatorjs/dist/storelocator/css/storelocator.css'
 import Storelocatorjs from 'storelocatorjs'
 
 /* eslint-disable no-unused-vars */
-var myStorelocator = new Storelocatorjs({
+const myStorelocator = new Storelocatorjs({
 	options: {
 		apiKey: 'AIzaSyD6vKbzlHT4wfk9jbCLXn_HZrdFaLzO2XI',
 		webServiceUrl: 'https://europe-west1-storelocatorjs.cloudfunctions.net/stores',

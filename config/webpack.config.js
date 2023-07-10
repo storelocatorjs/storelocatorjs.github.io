@@ -124,7 +124,7 @@ module.exports = (env, argv) => {
 		}
 	}
 
-	if (!new webpack.ProgressPlugin()) {
+	if (!isProduction) {
 		config.plugins.push(new webpack.ProgressPlugin())
 	}
 
