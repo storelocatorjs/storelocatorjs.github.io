@@ -23,7 +23,7 @@ module.exports = (env, argv) => {
 		},
 		devtool: isProduction ? false : 'source-map',
 		output: {
-			path: resolveApp('dist'),
+			path: resolveApp('docs/demo'),
 			filename: 'scripts/[name].js',
 			clean: true
 		},
@@ -40,7 +40,7 @@ module.exports = (env, argv) => {
 				},
 				{
 					test: /\.css$/,
-					include: [resolveApp('src'), resolveApp('node_modules/vlitejs'), resolveApp('../vlite')],
+					include: [resolveApp('src'), resolveApp('node_modules/storelocatorjs')],
 					use: [
 						MiniCssExtractPlugin.loader,
 						{
@@ -64,11 +64,7 @@ module.exports = (env, argv) => {
 			]
 		},
 		resolve: {
-			extensions: ['.js', '.css'],
-			alias: {
-				shared: resolveApp('/src/shared'),
-				package: resolveApp('../vlite')
-			}
+			extensions: ['.js', '.css']
 		},
 		devServer: {
 			static: {
@@ -77,8 +73,8 @@ module.exports = (env, argv) => {
 			historyApiFallback: true,
 			port: 3000,
 			compress: true,
-			hot: true,
-			open: true
+			hot: true
+			// open: true
 		},
 		plugins: [
 			new webpack.ProgressPlugin(),
@@ -88,20 +84,20 @@ module.exports = (env, argv) => {
 			}),
 			new HtmlWebpackPlugin({
 				filename: 'index.html',
-				template: resolveApp('public/index.html')
+				template: resolveApp('src/demo/index.html')
 			}),
-			new webpack.optimize.ModuleConcatenationPlugin(),
-			new CopyPlugin({
-				patterns: [
-					{
-						from: resolveApp('public'),
-						to: resolveApp('dist'),
-						globOptions: {
-							ignore: ['**/index.html']
-						}
-					}
-				]
-			})
+			new webpack.optimize.ModuleConcatenationPlugin()
+			// new CopyPlugin({
+			// 	patterns: [
+			// 		{
+			// 			from: resolveApp('public'),
+			// 			to: resolveApp('dist'),
+			// 			globOptions: {
+			// 				ignore: ['**/index.html']
+			// 			}
+			// 		}
+			// 	]
+			// })
 		],
 		stats: {
 			assets: true,
