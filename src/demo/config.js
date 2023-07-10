@@ -1,6 +1,7 @@
 import 'storelocatorjs/dist/storelocator/css/storelocator.css'
 import Storelocatorjs from 'storelocatorjs'
 
+/* eslint-disable no-unused-vars */
 var myStorelocator = new Storelocatorjs({
 	options: {
 		apiKey: 'AIzaSyD6vKbzlHT4wfk9jbCLXn_HZrdFaLzO2XI',

@@ -5,7 +5,6 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
-const CopyPlugin = require('copy-webpack-plugin')
 
 const appDirectory = fs.realpathSync(process.cwd())
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath)
@@ -13,7 +12,7 @@ const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath)
 module.exports = (env, argv) => {
 	const isProduction = argv.mode === 'production'
 
-	return {
+	const config = {
 		context: appDirectory,
 		entry: {
 			demo: resolveApp('src/demo/config.js')
@@ -77,7 +76,6 @@ module.exports = (env, argv) => {
 			// open: true
 		},
 		plugins: [
-			new webpack.ProgressPlugin(),
 			new MiniCssExtractPlugin({
 				filename: 'styles/[name].css',
 				chunkFilename: 'styles/[name].css'
@@ -87,17 +85,6 @@ module.exports = (env, argv) => {
 				template: resolveApp('src/demo/index.html')
 			}),
 			new webpack.optimize.ModuleConcatenationPlugin()
-			// new CopyPlugin({
-			// 	patterns: [
-			// 		{
-			// 			from: resolveApp('public'),
-			// 			to: resolveApp('dist'),
-			// 			globOptions: {
-			// 				ignore: ['**/index.html']
-			// 			}
-			// 		}
-			// 	]
-			// })
 		],
 		stats: {
 			assets: true,
@@ -136,4 +123,10 @@ module.exports = (env, argv) => {
 			splitChunks: false
 		}
 	}
+
+	if (!new webpack.ProgressPlugin()) {
+		config.plugins.push(new webpack.ProgressPlugin())
+	}
+
+	return config
 }

@@ -15,5 +15,8 @@ jobs:
     uses: yoriiis/actions/.github/workflows/github-pages-deploy.yml@main
     with:
       node-version: 18
-      command-build: make install && make build
+      command-build: |
+        make install
+        npm run build
+        make build
       build-dir: site

@@ -13,3 +13,7 @@ jobs:
     uses: yoriiis/actions/.github/workflows/test-and-build.yml@main
     with:
       node-version: 18
+      command-build: |
+        make install
+        npm run build
+        make build
