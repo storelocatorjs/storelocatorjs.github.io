@@ -7,7 +7,7 @@ import Storelocatorjs from 'storelocatorjs'
 const myStorelocator = new Storelocatorjs({
 	options: {
 		apiKey: 'AIzaSyD6vKbzlHT4wfk9jbCLXn_HZrdFaLzO2XI',
-		webServiceUrl: 'https://europe-west1-storelocatorjs.cloudfunctions.net/stores',
+		webServiceUrl: 'https://storelocator-functions.vercel.app',
 		cluster: {
 			options: {
 				averageCenter: true,
