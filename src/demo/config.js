@@ -1,3 +1,5 @@
+import './css/reset.css'
+import './css/demo.css'
 import 'storelocatorjs/dist/storelocator/css/storelocator.css'
 import Storelocatorjs from 'storelocatorjs'
 
