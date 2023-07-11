@@ -6,4 +6,5 @@ start:
 	python3 -m mkdocs serve
 
 build:
+	rm -rf ./site
 	python3 -m mkdocs build

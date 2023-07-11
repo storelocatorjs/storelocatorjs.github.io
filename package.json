@@ -3,12 +3,9 @@
 	"license": "MIT",
 	"author": "Joris DANIEL",
 	"scripts": {
-		"build": "rm -rf ./dist/ && webpack --mode=production --config config/webpack.config.js",
-		"dev": "rm -rf ./dist/ && webpack serve --mode=development --config config/webpack.config.js",
-		"test": "echo \"No test specified\" && exit 0",
-		"build:doc": "rm -rf ./public/ && npm run build:mkdocs:only && npm run create:demo",
-		"build:mkdocs:only": "python -m mkdocs build",
-		"create:demo": "cp -rv ./dist/. ./site/dist/"
+		"build": "rm -rf ./docs/demo/ && webpack --mode=production --config config/webpack.config.js",
+		"dev": "webpack serve --mode=development --config config/webpack.config.js",
+		"test": "echo \"No test specified\" && exit 0"
 	},
 	"browserslist": [
 		"last 2 chrome version",
