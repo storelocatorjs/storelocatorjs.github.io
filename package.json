@@ -18,7 +18,7 @@
 	],
 	"prettier": "./config/prettier.config.js",
 	"dependencies": {
-		"storelocatorjs": "^2.1.0",
+		"storelocatorjs": "file:storelocatorjs-2.1.0.tgz",
 		"validate-target": "^2.0.0"
 	},
 	"devDependencies": {
