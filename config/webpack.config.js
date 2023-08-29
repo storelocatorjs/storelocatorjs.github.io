@@ -71,7 +71,7 @@ module.exports = (env, argv) => {
 			extensions: ['.js', '.css'],
 			alias: {
 				shared: resolveApp('/src/shared'),
-				package: resolveApp('../vlite')
+				package: resolveApp('../storelocatorjs')
 			}
 		},
 		devServer: {
