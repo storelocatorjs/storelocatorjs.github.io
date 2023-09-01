@@ -5,6 +5,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const TerserPlugin = require('terser-webpack-plugin')
 const CssMinimizerPlugin = require('css-minimizer-webpack-plugin')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
+const CopyPlugin = require('copy-webpack-plugin')
 
 const appDirectory = fs.realpathSync(process.cwd())
 const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath)
@@ -12,17 +13,18 @@ const resolveApp = (relativePath) => path.resolve(appDirectory, relativePath)
 module.exports = (env, argv) => {
 	const isProduction = argv.mode === 'production'
 
-	const config = {
+	return {
 		context: appDirectory,
 		entry: {
-			demo: resolveApp('src/demo/config.js')
+			demo: resolveApp('src/demo/config.js'),
+			validate: resolveApp('src/validate/config.js')
 		},
 		watchOptions: {
 			ignored: /node_modules/
 		},
 		devtool: isProduction ? false : 'source-map',
 		output: {
-			path: resolveApp('docs/demo'),
+			path: resolveApp('dist'),
 			filename: 'scripts/[name].js',
 			clean: true
 		},
@@ -39,7 +41,11 @@ module.exports = (env, argv) => {
 				},
 				{
 					test: /\.css$/,
-					include: [resolveApp('src'), resolveApp('node_modules/storelocatorjs')],
+					include: [
+						resolveApp('src'),
+						resolveApp('node_modules/storelocatorjs'),
+						resolveApp('../storelocatorjs')
+					],
 					use: [
 						MiniCssExtractPlugin.loader,
 						{
@@ -63,7 +69,11 @@ module.exports = (env, argv) => {
 			]
 		},
 		resolve: {
-			extensions: ['.js', '.css']
+			extensions: ['.js', '.css'],
+			alias: {
+				shared: resolveApp('/src/shared'),
+				package: resolveApp('../storelocatorjs')
+			}
 		},
 		devServer: {
 			static: {
@@ -73,18 +83,35 @@ module.exports = (env, argv) => {
 			port: 3000,
 			compress: true,
 			hot: true
-			// open: true
 		},
 		plugins: [
+			new webpack.ProgressPlugin(),
 			new MiniCssExtractPlugin({
 				filename: 'styles/[name].css',
 				chunkFilename: 'styles/[name].css'
 			}),
 			new HtmlWebpackPlugin({
 				filename: 'index.html',
-				template: resolveApp('src/demo/index.html')
+				template: resolveApp('public/index.html'),
+				chunks: ['demo']
 			}),
-			new webpack.optimize.ModuleConcatenationPlugin()
+			new HtmlWebpackPlugin({
+				filename: 'validate.html',
+				template: resolveApp('public/validate.html'),
+				chunks: ['validate']
+			}),
+			new webpack.optimize.ModuleConcatenationPlugin(),
+			new CopyPlugin({
+				patterns: [
+					{
+						from: resolveApp('public'),
+						to: resolveApp('dist'),
+						globOptions: {
+							ignore: ['**/*.html']
+						}
+					}
+				]
+			})
 		],
 		stats: {
 			assets: true,
@@ -123,10 +150,4 @@ module.exports = (env, argv) => {
 			splitChunks: false
 		}
 	}
-
-	if (!isProduction) {
-		config.plugins.push(new webpack.ProgressPlugin())
-	}
-
-	return config
 }
