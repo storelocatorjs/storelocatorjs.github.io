@@ -16,7 +16,8 @@ module.exports = (env, argv) => {
 	return {
 		context: appDirectory,
 		entry: {
-			demo: resolveApp('src/demo/config.js')
+			demo: resolveApp('src/demo/config.js'),
+			validate: resolveApp('src/validate/config.js')
 		},
 		watchOptions: {
 			ignored: /node_modules/
@@ -81,8 +82,7 @@ module.exports = (env, argv) => {
 			historyApiFallback: true,
 			port: 3000,
 			compress: true,
-			hot: true,
-			open: true
+			hot: true
 		},
 		plugins: [
 			new webpack.ProgressPlugin(),
@@ -92,7 +92,13 @@ module.exports = (env, argv) => {
 			}),
 			new HtmlWebpackPlugin({
 				filename: 'index.html',
-				template: resolveApp('public/index.html')
+				template: resolveApp('public/index.html'),
+				chunks: ['demo']
+			}),
+			new HtmlWebpackPlugin({
+				filename: 'validate.html',
+				template: resolveApp('public/validate.html'),
+				chunks: ['validate']
 			}),
 			new webpack.optimize.ModuleConcatenationPlugin(),
 			new CopyPlugin({
@@ -101,7 +107,7 @@ module.exports = (env, argv) => {
 						from: resolveApp('public'),
 						to: resolveApp('dist'),
 						globOptions: {
-							ignore: ['**/index.html']
+							ignore: ['**/*.html']
 						}
 					}
 				]
